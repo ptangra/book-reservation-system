@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using book_reservation_system.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,11 +28,23 @@ namespace book_reservation_system
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Get db connection string (for now thats in-memory db name)
+            var connectionString = Configuration.GetConnectionString(
+                "BooksReservationDbConnectionString"
+            );
+            // Use an in-memory database
+            services.AddDbContext<BooksReservationDBContext>(options =>
+            {
+                options.UseInMemoryDatabase(connectionString);
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "book_reservation_system", Version = "v1" });
+                c.SwaggerDoc(
+                    "v1",
+                    new OpenApiInfo { Title = "book_reservation_system", Version = "v1" }
+                );
             });
         }
 
@@ -41,7 +55,9 @@ namespace book_reservation_system
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "book_reservation_system v1"));
+                app.UseSwaggerUI(
+                    c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "book_reservation_system v1")
+                );
             }
 
             app.UseHttpsRedirection();
