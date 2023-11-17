@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using book_reservation_system.Core;
+using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Repository;
 using book_reservation_system.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,10 +36,12 @@ namespace book_reservation_system
                 "BooksReservationDbConnectionString"
             );
             // Use an in-memory database
-            services.AddDbContext<BooksReservationDBContext>(options =>
+            services.AddDbContext<BooksReservationDbContext>(options =>
             {
                 options.UseInMemoryDatabase(connectionString);
             });
+
+            services.AddScoped<IBooksRepository, BooksRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

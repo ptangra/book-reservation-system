@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "book-reservation-system", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "book-reservation-system.Data", "book-reservation-system.Data\book-reservation-system.Data.csproj", "{B6574E71-8BC0-4DA4-BF0C-F6391DABE76D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "book-reservation-system.Core", "book-reservation-system.Core\book-reservation-system.Core.csproj", "{2C03C047-AFAF-4D2C-A16B-B0474C1529F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B6574E71-8BC0-4DA4-BF0C-F6391DABE76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6574E71-8BC0-4DA4-BF0C-F6391DABE76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6574E71-8BC0-4DA4-BF0C-F6391DABE76D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C03C047-AFAF-4D2C-A16B-B0474C1529F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C03C047-AFAF-4D2C-A16B-B0474C1529F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C03C047-AFAF-4D2C-A16B-B0474C1529F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C03C047-AFAF-4D2C-A16B-B0474C1529F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

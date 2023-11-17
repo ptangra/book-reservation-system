@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\book-reservation-system.Core\book-reservation-system.Core.csproj" />
     <ProjectReference Include="..\book-reservation-system.Data\book-reservation-system.Data.csproj" />
   </ItemGroup>
 

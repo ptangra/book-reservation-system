@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using book_reservation_system.Core.Contracts;
 using book_reservation_system.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,17 +11,17 @@ namespace book_reservation_system.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly BooksReservationDBContext _context;
+        private readonly IBooksRepository _booksRepository;
 
-        public BooksController(BooksReservationDBContext context)
+        public BooksController(IBooksRepository booksRepository)
         {
-            _context = context;
+            _booksRepository = booksRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<Book>> GetBooks()
         {
-            var books = await _context.Books.ToListAsync();
+            var books = await _booksRepository.GetAllAsync();
             return Ok(books);
         }
 
@@ -28,8 +29,7 @@ namespace book_reservation_system.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(Book createBookDTO)
         {
-            var book = await _context.AddAsync(createBookDTO);
-            await _context.SaveChangesAsync();
+            var book = await _booksRepository.AddAsync(createBookDTO);
 
             return Ok();
         }

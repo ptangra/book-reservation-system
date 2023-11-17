@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace book_reservation_system.Data
 {
-    public class BooksReservationDBContext : DbContext
+    public class BooksReservationDbContext : DbContext
     {
-        public BooksReservationDBContext(DbContextOptions options)
+        public BooksReservationDbContext(DbContextOptions options)
             : base(options)
         {
             // Ensure DB is craeted - we use this so our configuration is applied to the DB on startup
@@ -27,21 +27,21 @@ namespace book_reservation_system.Data
 
     // If moved to seperate project
     // Requires Microsoft.Extensions.Configuration & Microsoft.Extensions.Configuration.Json packages
-    public class BooksReservationDBContextFactory
-        : IDesignTimeDbContextFactory<BooksReservationDBContext>
+    public class BooksReservationDbContextFactory
+        : IDesignTimeDbContextFactory<BooksReservationDbContext>
     {
-        public BooksReservationDBContext CreateDbContext(string[] args)
+        public BooksReservationDbContext CreateDbContext(string[] args)
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var optionsBuilder = new DbContextOptionsBuilder<BooksReservationDBContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<BooksReservationDbContext>();
 
             var conn = configuration.GetConnectionString("BooksReservationDbConnectionString");
             optionsBuilder.UseInMemoryDatabase(conn);
-            return new BooksReservationDBContext(optionsBuilder.Options);
+            return new BooksReservationDbContext(optionsBuilder.Options);
         }
     }
 }
