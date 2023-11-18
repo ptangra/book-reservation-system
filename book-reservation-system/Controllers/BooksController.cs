@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using book_reservation_system.Core.Contracts;
 using book_reservation_system.Core.Models.Book;
 using book_reservation_system.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace book_reservation_system.Controllers
 {
@@ -22,14 +26,15 @@ namespace book_reservation_system.Controllers
         #endregion
 
         #region GET Methods
-        [HttpGet]
-        public async Task<ActionResult<Book>> GetBooks()
+        // GET: api/Books/GetAll
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<IEnumerable<GetBookDTO>>> GetBooks()
         {
-            var books = await _booksRepository.GetAllAsync();
+            var books = await _booksRepository.GetAllAsync<GetBookDTO>();
             return Ok(books);
         }
 
-        // GET: api/Countries/5
+        // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
@@ -51,9 +56,44 @@ namespace book_reservation_system.Controllers
         #endregion
 
         #region PUT Methods
+        // PUT: api/Books/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCountry(int id, UpdateBookDTO updateBookDTO)
+        {
+            if (id != updateBookDTO.Id)
+            {
+                return BadRequest("Invalid Record Id");
+            }
+
+            try
+            {
+                await _booksRepository.UpdateAsync(id, updateBookDTO);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _booksRepository.Exists(id))
+                {
+                    throw new Exception($"{nameof(PutCountry)} with id ({id}) was not found");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
         #endregion
 
         #region DELETE Methods
+        // DELETE: api/Books/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(int id)
+        {
+            await _booksRepository.DeleteAsync(id);
+
+            return NoContent();
+        }
         #endregion
     }
 }
