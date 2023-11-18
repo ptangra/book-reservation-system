@@ -22,6 +22,13 @@ namespace book_reservation_system.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Set up cascade deletion on ReservedBook table if FK is deleted from Book
+            modelBuilder.Entity<Book>()
+              .HasOne(b => b.ReservedBook)
+              .WithOne(r => r.Book)
+              .HasForeignKey<ReservedBook>(b => b.BookId)
+              .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.ApplyConfiguration(new BookConfiguration());
         }
     }

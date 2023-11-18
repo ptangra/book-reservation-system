@@ -9,12 +9,8 @@ using book_reservation_system.Core.Models.Book;
 
 namespace book_reservation_system.Core.Models.ReservedBook
 {
-    public class ReservedBookDTO
+    public class ReservedBookDTO : BaseReservedBookDTO
     {
         public int Id { get; set; }
-
-        public GetBookDTO Book { get; set; }
-
-        public string Comment { get; set; }
     }
 }

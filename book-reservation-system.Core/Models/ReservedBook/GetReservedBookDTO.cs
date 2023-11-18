@@ -2,6 +2,5 @@
 {
     public class GetReservedBookDTO : BaseReservedBookDTO
     {
-        public int Id { get; set; }
     }
 }

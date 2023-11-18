@@ -8,23 +8,23 @@ namespace book_reservation_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReserveBooksController : Controller
+    public class ReserveBooksController : ControllerBase
     {
         #region Fields
         private readonly IReservedBooksRepository _reserveBooksRepository;
         #endregion
 
         #region Constructor
-        public ReserveBooksController(IReservedBooksRepository reservedBooksRepository)
+        public ReserveBooksController(IReservedBooksRepository reserveBooksRepository)
         {
-            _reserveBooksRepository = reservedBooksRepository;
+            _reserveBooksRepository = reserveBooksRepository;
         }
         #endregion
 
         #region GET Methods
-        // GET: api/ReserveBooks/
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<GetReservedBookDTO>>> GetReservedBooks()
+        // GET: api/Books/
+        [HttpGet("GetReserveDetails")]
+        public async Task<ActionResult<IEnumerable<GetReservedBookDTO>>> GetReserveBooksDetails()
         {
             var reservedBooks = await _reserveBooksRepository.GetAllAsync<GetReservedBookDTO>();
             return Ok(reservedBooks);
@@ -32,13 +32,29 @@ namespace book_reservation_system.Controllers
         #endregion
 
         #region POST Methods
-        // POST: api/ReserveBooks/
-        [HttpPost]
+        // POST: api/Books/Reserve
+        [HttpPost("Reserve")]
         public async Task<ActionResult<ReservedBookDTO>> PostReservedBook(CreateReservedBookDTO createReservedBookDTO)
         {
+            if (await _reserveBooksRepository.IsBookReserved(createReservedBookDTO.BookId))
+            {
+                object error = $"{nameof(PostReservedBook)} Book with id ({createReservedBookDTO.BookId}) was already reserved";
+                return BadRequest(error);
+            }
             var reservedBook = await _reserveBooksRepository.AddAsync<CreateReservedBookDTO, GetReservedBookDTO>(createReservedBookDTO);
 
-            return CreatedAtAction(nameof(PostReservedBook), new { id = reservedBook.Id }, reservedBook);
+            return CreatedAtAction(nameof(PostReservedBook), new { id = reservedBook.BookId }, reservedBook);
+        }
+        #endregion
+
+        #region DELETE Methods
+        // DELETE: api/Books/5
+        [HttpDelete("{bookId}")]
+        public async Task<IActionResult> DeleteBook(int bookId)
+        {
+            await _reserveBooksRepository.DeleteReservedBook(bookId);
+
+            return NoContent();
         }
         #endregion
     }

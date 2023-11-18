@@ -1,4 +1,5 @@
-﻿using book_reservation_system.Core.Models.ReservedBook;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using book_reservation_system.Core.Models.ReservedBook;
 
 namespace book_reservation_system.Core.Models.Book
 {
@@ -7,7 +8,9 @@ namespace book_reservation_system.Core.Models.Book
         public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
-
+        public bool IsReserved { get; set; }
+        public string ReserveComment { get; set; }
+    
         // add references for M:M, 1:M, M:1, 1:1 in this class
     }
 }

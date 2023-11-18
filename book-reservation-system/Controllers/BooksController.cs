@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using book_reservation_system.Core.Contracts;
 using book_reservation_system.Core.Models.Book;
+using book_reservation_system.Core.Models.ReservedBook;
+using book_reservation_system.Core.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,11 +26,19 @@ namespace book_reservation_system.Controllers
         #endregion
 
         #region GET Methods
-        // GET: api/Books/GetAll
-        [HttpGet("GetAll")]
+        // GET: api/Books/GetBooks
+        [HttpGet("GetBooks")]
         public async Task<ActionResult<IEnumerable<GetBookDTO>>> GetBooks()
         {
             var books = await _booksRepository.GetAllAsync<GetBookDTO>();
+            return Ok(books);
+        }
+
+        // GET: api/Books/GetBooksDetails
+        [HttpGet("GetBooksDetails")]
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooksDetails()
+        {
+            var books = await _booksRepository.GetDetails();
             return Ok(books);
         }
 
@@ -36,9 +46,24 @@ namespace book_reservation_system.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
-            var book = await _booksRepository.GetAsync<BookDTO>(id);
+            var book = await _booksRepository.GetDetails(id);
 
             return Ok(book);
+        }
+
+        // GET: api/Books/GetAvailableBooks
+        [HttpGet("GetAvailableBooks")]
+        public async Task<ActionResult<IEnumerable<GetBookDTO>>> GetAvailableBooks()
+        {
+            var books = await _booksRepository.GetAvailableBooks();
+            return Ok(books);
+        }
+        // GET: api/Books/GetReservedBooksDetails
+        [HttpGet("GetReservedBooksDetails")]
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetReservedBooksDetails()
+        {
+            var books = await _booksRepository.GetReservedBooks();
+            return Ok(books);
         }
         #endregion
 
