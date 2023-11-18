@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using book_reservation_system.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace book_reservation_system.Core.Middleware
@@ -13,9 +14,11 @@ namespace book_reservation_system.Core.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        public ExceptionMiddleware(RequestDelegate next)
+        private readonly ILogger<ExceptionMiddleware> _logger;
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -26,6 +29,7 @@ namespace book_reservation_system.Core.Middleware
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Something went wrong while processing {context.Request.Path}");
                 await HandleExceptionAsync(context, ex);
             }
         }

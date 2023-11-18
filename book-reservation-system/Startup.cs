@@ -42,7 +42,7 @@ namespace book_reservation_system
             {
                 options.UseInMemoryDatabase(connectionString);
             });
-
+            
             services.AddAutoMapper(typeof(MapperConfig));
 
             services.AddScoped<IBooksRepository, BooksRepository>();
@@ -69,7 +69,7 @@ namespace book_reservation_system
                     c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "book_reservation_system v1")
                 );
             }
-
+            
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
