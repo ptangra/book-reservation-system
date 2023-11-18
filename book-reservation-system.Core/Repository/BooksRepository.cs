@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using book_reservation_system.Core.Contracts;
 using book_reservation_system.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace book_reservation_system.Core.Repository
 {
-    public class BooksRepository : IBooksRepository
+    public class BooksRepository : GenericRepository<Book>, IBooksRepository
     {
+        #region Fields
         private readonly BooksReservationDbContext _context;
+        private readonly IMapper _mapper;
+        #endregion
 
-        public BooksRepository(BooksReservationDbContext context)
+        #region Constructor
+        public BooksRepository(BooksReservationDbContext context, IMapper mapper)
+            : base(context, mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
+        #endregion
 
-        public async Task<Book> AddAsync(Book entity)
-        {
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<List<Book>> GetAllAsync()
-        {
-            // Get the DbSet of type T
-            return await _context.Set<Book>().ToListAsync();
-        }
+        #region Methods
+        // here we can add implementation for all specific methods for the books repository
+        #endregion
     }
 }

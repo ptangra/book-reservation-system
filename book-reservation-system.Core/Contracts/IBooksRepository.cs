@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using book_reservation_system.Data;
+﻿using book_reservation_system.Data;
 
 namespace book_reservation_system.Core.Contracts
 {
-    public interface IBooksRepository
+    public interface IBooksRepository : IGenericRepository<Book>
     {
-        Task<List<Book>> GetAllAsync();
-
-        Task<Book> AddAsync(Book entity);
+        // here we can add specific methods for the booksrepository
     }
 }

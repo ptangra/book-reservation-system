@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using book_reservation_system.Core;
+using book_reservation_system.Core.Configurations;
 using book_reservation_system.Core.Contracts;
 using book_reservation_system.Core.Repository;
 using book_reservation_system.Data;
@@ -40,6 +41,8 @@ namespace book_reservation_system
             {
                 options.UseInMemoryDatabase(connectionString);
             });
+
+            services.AddAutoMapper(typeof(MapperConfig));
 
             services.AddScoped<IBooksRepository, BooksRepository>();
 

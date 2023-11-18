@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Models.Book;
 using book_reservation_system.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace book_reservation_system.Controllers
 {
@@ -11,13 +10,18 @@ namespace book_reservation_system.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        #region Fields
         private readonly IBooksRepository _booksRepository;
+        #endregion
 
+        #region Constructor
         public BooksController(IBooksRepository booksRepository)
         {
             _booksRepository = booksRepository;
         }
+        #endregion
 
+        #region GET Methods
         [HttpGet]
         public async Task<ActionResult<Book>> GetBooks()
         {
@@ -25,13 +29,31 @@ namespace book_reservation_system.Controllers
             return Ok(books);
         }
 
+        // GET: api/Countries/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BookDTO>> GetBook(int id)
+        {
+            var book = await _booksRepository.GetAsync(id);
+
+            return Ok(book);
+        }
+        #endregion
+
+        #region POST Methods
         // POST: api/Books
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book createBookDTO)
+        public async Task<ActionResult<BookDTO>> PostBook(CreateBookDTO createBookDTO)
         {
-            var book = await _booksRepository.AddAsync(createBookDTO);
+            var book = await _booksRepository.AddAsync<CreateBookDTO, GetBookDTO>(createBookDTO);
 
-            return Ok();
+            return CreatedAtAction(nameof(PostBook), new { id = book.Id }, book);
         }
+        #endregion
+
+        #region PUT Methods
+        #endregion
+
+        #region DELETE Methods
+        #endregion
     }
 }

@@ -25,8 +25,6 @@ namespace book_reservation_system.Data
         }
     }
 
-    // If moved to seperate project
-    // Requires Microsoft.Extensions.Configuration & Microsoft.Extensions.Configuration.Json packages
     public class BooksReservationDbContextFactory
         : IDesignTimeDbContextFactory<BooksReservationDbContext>
     {
