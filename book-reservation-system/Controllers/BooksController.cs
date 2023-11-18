@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using book_reservation_system.Core.Contracts;
 using book_reservation_system.Core.Models.Book;
-using book_reservation_system.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +36,7 @@ namespace book_reservation_system.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDTO>> GetBook(int id)
         {
-            var book = await _booksRepository.GetAsync(id);
+            var book = await _booksRepository.GetAsync<BookDTO>(id);
 
             return Ok(book);
         }
@@ -58,7 +56,7 @@ namespace book_reservation_system.Controllers
         #region PUT Methods
         // PUT: api/Books/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCountry(int id, UpdateBookDTO updateBookDTO)
+        public async Task<IActionResult> PutBook(int id, UpdateBookDTO updateBookDTO)
         {
             if (id != updateBookDTO.Id)
             {
@@ -73,7 +71,7 @@ namespace book_reservation_system.Controllers
             {
                 if (!await _booksRepository.Exists(id))
                 {
-                    throw new Exception($"{nameof(PutCountry)} with id ({id}) was not found");
+                    throw new Exception($"{nameof(PutBook)} with id ({id}) was not found");
                 }
                 else
                 {

@@ -16,6 +16,7 @@ namespace book_reservation_system.Data
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<ReservedBook> ReservedBooks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

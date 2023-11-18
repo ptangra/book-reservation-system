@@ -45,6 +45,7 @@ namespace book_reservation_system
             services.AddAutoMapper(typeof(MapperConfig));
 
             services.AddScoped<IBooksRepository, BooksRepository>();
+            services.AddScoped<IReservedBooksRepository, ReservedBooksRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
