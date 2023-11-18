@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using book_reservation_system.Core;
 using book_reservation_system.Core.Configurations;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Middleware;
 using book_reservation_system.Core.Repository;
 using book_reservation_system.Data;
 using Microsoft.AspNetCore.Builder;
@@ -68,6 +69,8 @@ namespace book_reservation_system
                     c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "book_reservation_system v1")
                 );
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 

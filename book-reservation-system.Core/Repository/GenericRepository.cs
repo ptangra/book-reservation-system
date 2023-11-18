@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Exceptions;
 using book_reservation_system.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,7 +50,7 @@ namespace book_reservation_system.Core.Repository
 
             if (entity == null)
             {
-                throw new Exception($"{typeof(T).Name} with id ({id}) was not found");
+                throw new NotFoundException(typeof(T).Name, id);
             }
 
             _context.Set<T>().Remove(entity);
@@ -92,8 +93,7 @@ namespace book_reservation_system.Core.Repository
 
             if (result is null)
             {
-                string idHasValue = id.HasValue ? id.ToString() : "No Key Provided";
-                throw new Exception($"{typeof(T).Name} with id ({idHasValue}) was not found");
+                throw new NotFoundException(typeof(T).Name, id.HasValue ? id : "No Key Provided");
             }
 
             return _mapper.Map<TResult>(result);
@@ -112,7 +112,7 @@ namespace book_reservation_system.Core.Repository
 
             if (entity == null)
             {
-                throw new Exception($"{typeof(T).Name} with id ({id}) was not found");
+                throw new NotFoundException(typeof(T).Name, id);
             }
 
             _mapper.Map(source, entity);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Exceptions;
 using book_reservation_system.Core.Models.Book;
 using book_reservation_system.Data;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,7 @@ namespace book_reservation_system.Core.Repository
 
             if (book == null)
             {
-                throw new Exception($"{nameof(GetDetails)} with id ({id}) was not found");
+                throw new NotFoundException(nameof(GetDetails), id);
             }
 
             return book;

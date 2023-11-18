@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Exceptions;
 using book_reservation_system.Core.Models.ReservedBook;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,8 +39,7 @@ namespace book_reservation_system.Controllers
         {
             if (await _reserveBooksRepository.IsBookReserved(createReservedBookDTO.BookId))
             {
-                object error = $"{nameof(PostReservedBook)} Book with id ({createReservedBookDTO.BookId}) was already reserved";
-                return BadRequest(error);
+                throw new BadRequestException($"{nameof(PostReservedBook)} Book with id ({createReservedBookDTO.BookId}) was already reserved");
             }
             var reservedBook = await _reserveBooksRepository.AddAsync<CreateReservedBookDTO, GetReservedBookDTO>(createReservedBookDTO);
 

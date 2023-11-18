@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using AutoMapper;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Exceptions;
 using book_reservation_system.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +46,7 @@ namespace book_reservation_system.Core.Repository
 
             if (entity == null)
             {
-                throw new Exception($"{typeof(ReservedBook).Name} with id ({id}) was not found");
+                throw new NotFoundException(typeof(ReservedBook).Name, id);
             }
 
             _context.Set<ReservedBook>().Remove(entity);

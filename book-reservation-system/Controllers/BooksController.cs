@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using book_reservation_system.Core.Contracts;
+using book_reservation_system.Core.Exceptions;
 using book_reservation_system.Core.Models.Book;
 using book_reservation_system.Core.Models.ReservedBook;
 using book_reservation_system.Core.Repository;
@@ -85,7 +87,7 @@ namespace book_reservation_system.Controllers
         {
             if (id != updateBookDTO.Id)
             {
-                return BadRequest("Invalid Record Id");
+                throw new BadRequestException("Invalid Record Id");
             }
 
             try
@@ -96,7 +98,7 @@ namespace book_reservation_system.Controllers
             {
                 if (!await _booksRepository.Exists(id))
                 {
-                    throw new Exception($"{nameof(PutBook)} with id ({id}) was not found");
+                    throw new NotFoundException(nameof(PutBook), id);
                 }
                 else
                 {
