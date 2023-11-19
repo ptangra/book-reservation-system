@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace book_reservation_system.Data.Configuration
 {
+    /// <summary>
+    /// Configuration class for defining the initial data seeding for the 'Book' entity using Entity Framework Core.
+    /// Implements the <see cref="IEntityTypeConfiguration{TEntity}"/> interface.
+    /// </summary>
     public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
+        /// <summary>
+        /// Configures the entity properties and initial data seeding for the 'Book' entity.
+        /// </summary>
+        /// <param name="builder">The builder used to configure the entity.</param>
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.HasData(
